@@ -5,13 +5,8 @@ import * as PostController from "./controllers/Post.js";
 
 const app = express();
 
-const portServer = false;
-const PORT = 4444 || portServer;
-
 mongoose
-  .connect(
-    "mongodb+srv://alcohoolik:AgwoZnkdwGzE32SB@cluster0.6eyzvnu.mongodb.net/photos?retryWrites=true&w=majority"
-  )
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log("DB connected"))
   .catch((err) => console.log(err));
 
@@ -24,6 +19,6 @@ app.post("/posts", PostController.create);
 app.post("/posts/:id", PostController.update);
 app.delete("/posts/:id", PostController.remove);
 
-app.listen(PORT, (err) => {
+app.listen(process.env.PORT || "4444", (err) => {
   err ? console.log(err) : console.log(`Server is running on port ${PORT}`);
 });
